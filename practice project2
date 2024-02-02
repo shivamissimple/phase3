@@ -1,0 +1,27 @@
+public class AssertionDemo {
+
+    public static void main(String[] args) {
+
+        // Simple assertion - checks if age is valid
+        int age = 25;
+        assert age >= 18 : "Age must be 18 or above";
+        System.out.println("Valid age: " + age);
+
+        // Assertion with custom message
+        String name = "Alice";
+        assert !name.isEmpty() : "Name cannot be empty";
+        System.out.println("Valid name: " + name);
+
+        // Asserting object equality
+        Integer num1 = 10;
+        Integer num2 = 10;
+        assert num1 == num2 : "Objects should be equal";
+        System.out.println("Objects are equal: " + num1 + " & " + num2);
+
+        // Assertions disabled by default - comment out to see the exception
+        // int value = 0;
+        // assert value > 0 : "Value should be positive";
+        // System.out.println("Positive value: " + value);
+
+    }
+}
