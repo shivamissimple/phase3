@@ -1,0 +1,52 @@
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.DynamicTest.DynamicProvider;
+import org.junit.jupiter.api.TestFactory;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.stream.Stream;
+
+public class DynamicTestDemo {
+
+    // Using @TestFactory with Stream
+    @TestFactory
+    Stream<DynamicTest> testAdditionWithStreams() {
+        return Stream.of(
+                (2, 3, 5),
+                (5, 7, 12),
+                (10, -2, 8)
+        ).map(t -> DynamicTest.dynamicTest(
+                "Add " + t.get(0) + " and " + t.get(1),
+                () -> assertEquals(t.get(2), add(t.get(0), t.get(1)))
+        ));
+    }
+
+    // Using @TestFactory with custom DynamicProvider
+    @TestFactory
+    Iterable<DynamicTest> testMultiplicationWithProvider() {
+        return new MyDynamicProvider();
+    }
+
+    private int add(int a, int b) {
+        return a + b;
+    }
+
+    // Custom DynamicProvider implementation
+    static class MyDynamicProvider implements DynamicProvider {
+
+        final String[] testNames = {"Multiply 2 by 3", "Multiply 5 by 7", "Multiply 10 by -2"};
+        final int[][] testData = {{2, 3, 6}, {5, 7, 35}, {10, -2, -20}};
+
+        @Override
+        public Iterator<DynamicTest> provide() {
+            return Arrays.stream(testNames).zipWithIndex()
+                    .map(pair -> DynamicTest.dynamicTest(pair.getFirst(),
+                            () -> assertEquals(testData[pair.getSecond()][2], multiply(testData[pair.getSecond()][0], testData[pair.getSecond()][1]))))
+                    .iterator();
+        }
+
+        private int multiply(int a, int b) {
+            return a * b;
+        }
+    }
+}
