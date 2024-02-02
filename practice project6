@@ -1,0 +1,32 @@
+public interface MessageService {
+    String getMessage();
+}
+public class EmailService implements MessageService {
+
+    @Override
+    public String getMessage() {
+        return "This is an email message.";
+    }
+}
+
+public class SMSService implements MessageService {
+
+    @Override
+    public String getMessage() {
+        return "This is an SMS message.";
+    }
+}
+public class Main {
+
+    @Autowired
+    private MessageService messageService;
+
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args); // Start Spring application
+    }
+
+    @PostConstruct // Run after bean creation
+    public void printMessage() {
+        System.out.println(messageService.getMessage());
+    }
+}
