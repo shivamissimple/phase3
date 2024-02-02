@@ -1,0 +1,43 @@
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.*;
+
+public class ConditionalTestExecutionDemo {
+
+    @Test
+    @Disabled("Disabling for demonstration")
+    void disabledTest() {
+        // This test will always be skipped
+        System.out.println("This test is disabled.");
+    }
+
+    @Test
+    @EnabledOnOs(OS.MAC)
+    void macosOnlyTest() {
+        System.out.println("This test runs only on macOS.");
+    }
+
+    @Test
+    @EnabledOnJre(JAVA_17)
+    void java17OnlyTest() {
+        System.out.println("This test runs only on Java 17.");
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "os.name", matches = "Windows.*")
+    void windowsOnlyTest() {
+        System.out.println("This test runs only on Windows.");
+    }
+
+    @Test
+    @EnabledIf("customCondition")
+    void conditionalTest() {
+        System.out.println("This test runs based on a custom condition.");
+    }
+
+    static boolean customCondition() {
+        // Define your custom logic here
+        // Example: return System.getProperty("user.name").equals("admin");
+        return true; // Replace with your actual condition
+    }
+}
