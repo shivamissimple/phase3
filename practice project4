@@ -1,0 +1,26 @@
+import org.junit.jupiter.api.*;
+
+public class NestedAndRepeatedTestsDemo {
+
+    @Nested
+    class MathOperationsTests {
+
+        @RepeatedTest(5)  // Repeat the test 5 times
+        void testAddition() {
+            Calculator calculator = new Calculator();
+            assertEquals(8, calculator.add(5, 3));
+        }
+
+        @Test
+        void testSubtraction() {
+            Calculator calculator = new Calculator();
+            assertEquals(4, calculator.subtract(10, 6));
+        }
+    }
+
+    @RepeatedTest(value = 3, name = "Repetition {currentRepetition} of {totalRepetitions}")
+    void testStringConcatenation() {
+        String result = "Hello" + " " + "World";
+        assertEquals("Hello World", result);
+    }
+}
